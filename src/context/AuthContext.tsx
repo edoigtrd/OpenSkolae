@@ -52,8 +52,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } else {
           setState(s => ({ ...s, isLoading: false }));
         }
-      } catch {
-        await clearToken();
+      } catch (e) {
+        if (e instanceof AuthError) {
+          await clearToken();
+        }
         setState(s => ({ ...s, isLoading: false }));
       }
     })();
